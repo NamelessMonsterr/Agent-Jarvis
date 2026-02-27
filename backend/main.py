@@ -59,15 +59,18 @@ app.include_router(chat_router)
 # ─── Gradio Chat UI (MVP) ────────────────────────────────────────────────────
 
 
+import os
+
 async def jarvis_chat(message: str, history: list, session_id: str) -> tuple:
     """Gradio chat handler — calls Jarvis backend."""
     if not session_id:
         session_id = str(uuid.uuid4())
 
     try:
+        port = os.getenv("PORT", "8000")
         async with httpx.AsyncClient(timeout=60) as client:
             resp = await client.post(
-                "http://localhost:8000/api/chat",
+                f"http://127.0.0.1:{port}/api/chat",
                 json={"message": message, "session_id": session_id},
             )
             data = resp.json()
