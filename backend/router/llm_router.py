@@ -207,11 +207,6 @@ class LLMRouter:
                 timeout_s=20,
             ))
 
-        registry.append(ModelConfig(
-            name="gemma:7b", provider_name="ollama", priority=5,
-            provider=OllamaProvider(timeout_s=30), timeout_s=30,
-        ))
-
         return sorted(registry, key=lambda m: m.priority)
 
     def get_available_models(self, task_type: Optional[str] = None) -> list[ModelConfig]:
